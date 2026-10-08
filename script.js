@@ -25,7 +25,7 @@ function initClickToCallModal() {
   if (!phoneModal) return;
 
   function openPhoneModal(phoneNumber = '(800) 948-4321', telHref = 'tel:18009484321') {
-    if (modalPhoneDisplay) modalPhoneDisplay.textContent = phoneNumber;
+    if (modalPhoneDisplay) modalPhoneDisplay.textContent = '(800) 948-4321';
     if (modalDirectCallLink) modalDirectCallLink.href = telHref;
     phoneModal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -36,14 +36,13 @@ function initClickToCallModal() {
     document.body.style.overflow = '';
   }
 
-  // Intercept all telephone links globally
+  // Intercept all telephone links globally EXCEPT those inside the modal itself
   document.addEventListener('click', (e) => {
     const telLink = e.target.closest('a[href^="tel:"]');
-    if (telLink) {
+    if (telLink && !telLink.closest('#phoneCallModal')) {
       e.preventDefault();
       const href = telLink.getAttribute('href');
-      const text = telLink.textContent.trim() || '(800) 948-4321';
-      openPhoneModal(text, href);
+      openPhoneModal('(800) 948-4321', href);
     }
   });
 
