@@ -1,427 +1,148 @@
-/* ==========================================================================
-   FLORIDA WATER DAMAGE & PLUMBING RESTORATION - DYNAMIC JAVASCRIPT ENGINE
-   ========================================================================== */
+/* Florida Water Damage — site script: menus, call popup, before/after slider, calculator. */
+(function () {
+  'use strict';
+  var body = document.body;
 
-document.addEventListener('DOMContentLoaded', () => {
-  initCalculator();
-  initBeforeAfterSlider();
-  initCoverageFinder();
-  initFaqAccordion();
-  initModalAndToast();
-  initClickToCallModal();
-  initMobileNav();
-});
+  /* ---------- Desktop dropdowns (click/keyboard; hover handled in CSS) ---------- */
+  document.querySelectorAll('.nav [data-drop]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var li = btn.parentElement, isOpen = li.classList.contains('open');
+      document.querySelectorAll('.nav li.open').forEach(function (o) { o.classList.remove('open'); o.querySelector('[data-drop]').setAttribute('aria-expanded', 'false'); });
+      if (!isOpen) { li.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+    });
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav')) document.querySelectorAll('.nav li.open').forEach(function (o) { o.classList.remove('open'); });
+  });
 
-/* ==========================================================================
-   1. CLICK TO CALL EMERGENCY POPUP MODAL
-   ========================================================================== */
-function initClickToCallModal() {
-  const phoneModal = document.getElementById('phoneCallModal');
-  const closeBtn = document.getElementById('phoneModalCloseBtn');
-  const modalPhoneDisplay = document.getElementById('phoneModalDisplay');
-  const modalDirectCallLink = document.getElementById('phoneModalDirectCall');
-  const modalSwitchDispatchBtn = document.getElementById('phoneModalSwitchDispatch');
-
-  if (!phoneModal) return;
-
-  function openPhoneModal(phoneNumber = '(800) 948-4321', telHref = 'tel:18009484321') {
-    if (modalPhoneDisplay) modalPhoneDisplay.textContent = '(800) 948-4321';
-    if (modalDirectCallLink) modalDirectCallLink.href = telHref;
-    phoneModal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+  /* ---------- Mobile drawer ---------- */
+  var drawer = document.getElementById('drawer');
+  function setDrawer(open) {
+    if (!drawer) return;
+    drawer.classList.toggle('open', open);
+    body.style.overflow = open ? 'hidden' : '';
+    document.querySelectorAll('[data-burger]').forEach(function (b) { b.setAttribute('aria-expanded', String(open)); });
   }
+  document.querySelectorAll('[data-burger]').forEach(function (b) { b.addEventListener('click', function () { setDrawer(true); }); });
+  document.querySelectorAll('[data-drawer-close]').forEach(function (b) { b.addEventListener('click', function () { setDrawer(false); }); });
 
-  function closePhoneModal() {
-    phoneModal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
+  /* ---------- Call popup ----------
+     Any click on the page opens the call popup, EXCEPT clicks on menus
+     (header, mobile menu, footer links, breadcrumbs) and on controls
+     (calculator, FAQ toggles, slider). Phone links always open it. */
+  var pop = document.getElementById('callPop');
+  var lastFocus = null, closedAt = 0;
+  var MENUS = '.hdr, .drawer, .ftr, .crumbs, .ticker';
+  var CONTROLS = 'form, input, select, textarea, label, summary, button, .ba, .presets, .no-pop';
 
-  // Intercept all telephone links globally EXCEPT those inside the modal itself
-  document.addEventListener('click', (e) => {
-    const telLink = e.target.closest('a[href^="tel:"]');
-    if (telLink && !telLink.closest('#phoneCallModal')) {
-      e.preventDefault();
-      const href = telLink.getAttribute('href');
-      openPhoneModal('(800) 948-4321', href);
+  function openPop(link) {
+    if (!pop || pop.classList.contains('open')) return;
+    var cont = pop.querySelector('[data-continue]');
+    if (cont) {
+      if (link && link.href) {
+        var label = (link.getAttribute('data-label') || link.textContent || '').replace(/\s+/g, ' ').trim();
+        cont.href = link.href;
+        cont.textContent = 'Continue to ' + (label.length > 42 ? label.slice(0, 40) + '…' : label || 'page');
+        cont.hidden = false;
+      } else { cont.hidden = true; }
     }
-  });
-
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closePhoneModal);
+    lastFocus = document.activeElement;
+    pop.classList.add('open');
+    pop.setAttribute('aria-hidden', 'false');
+    body.style.overflow = 'hidden';
+    var call = pop.querySelector('.btn-call');
+    if (call) call.focus({ preventScroll: true });
+    if (window.gtag) window.gtag('event', 'call_popup_open', { page_path: location.pathname });
   }
-
-  phoneModal.addEventListener('click', (e) => {
-    if (e.target === phoneModal) closePhoneModal();
-  });
-
-  if (modalSwitchDispatchBtn) {
-    modalSwitchDispatchBtn.addEventListener('click', () => {
-      closePhoneModal();
-      const dispatchModal = document.getElementById('dispatchModal');
-      if (dispatchModal) {
-        dispatchModal.classList.add('open');
-        document.body.style.overflow = 'hidden';
+  function closePop() {
+    if (!pop || !pop.classList.contains('open')) return;
+    pop.classList.remove('open');
+    pop.setAttribute('aria-hidden', 'true');
+    body.style.overflow = '';
+    closedAt = Date.now();
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  if (pop) {
+    pop.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', closePop); });
+    document.addEventListener('keydown', function (e) {
+      if (!pop.classList.contains('open')) return;
+      if (e.key === 'Escape') closePop();
+      if (e.key === 'Tab') { // keep focus inside the dialog
+        var f = pop.querySelectorAll('a[href]:not([hidden]), button');
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     });
-  }
-}
-
-/* ==========================================================================
-   2. IICRC S500 + PLUMBING COST & DRYING CALCULATOR ENGINE
-   ========================================================================== */
-function initCalculator() {
-  const sqftSlider = document.getElementById('sqftRange');
-  const sqftDisplay = document.getElementById('sqftDisplay');
-  const sqftInput = document.getElementById('sqftInput');
-  const catButtons = document.querySelectorAll('[data-cat]');
-  const classButtons = document.querySelectorAll('[data-class]');
-  const perilButtons = document.querySelectorAll('[data-peril]');
-  const citySelect = document.getElementById('calcCitySelect');
-
-  const priceOutput = document.getElementById('calcPriceOutput');
-  const timelineOutput = document.getElementById('calcTimelineOutput');
-  const ahamOutput = document.getElementById('calcAhamOutput');
-  const dehuOutput = document.getElementById('calcDehuOutput');
-  const airMoverOutput = document.getElementById('calcAirMoverOutput');
-  const protocolOutput = document.getElementById('calcProtocolText');
-
-  if (!sqftSlider) return;
-
-  let state = {
-    sqft: 450,
-    category: 1,
-    evapClass: 2,
-    peril: 'burst',
-    cityMultiplier: 1.0
-  };
-
-  function updateCalculator() {
-    sqftDisplay.textContent = state.sqft.toLocaleString();
-    if (sqftInput) sqftInput.value = state.sqft;
-
-    const baseRatePerSqFt = 2.75;
-    const catMultipliers = { 1: 1.0, 2: 1.45, 3: 2.2 };
-    const catMult = catMultipliers[state.category] || 1.0;
-    const classMultipliers = { 1: 1.0, 2: 1.2, 3: 1.5, 4: 1.85 };
-    const classMult = classMultipliers[state.evapClass] || 1.2;
-
-    const perilAllowances = {
-      burst: 350,
-      slab: 550,
-      hurricane: 450,
-      ac: 250
-    };
-    const perilAllowance = perilAllowances[state.peril] || 350;
-
-    const calculatedBase = (state.sqft * baseRatePerSqFt * catMult * classMult) + perilAllowance;
-    const minPrice = Math.round(calculatedBase * 0.9 / 25) * 25;
-    const maxPrice = Math.round(calculatedBase * 1.25 / 25) * 25;
-
-    let days = 2;
-    if (state.category === 3 || state.evapClass >= 3) days = 3;
-    if (state.category === 3 && state.evapClass === 4) days = 5;
-
-    const airMoversCount = Math.max(3, Math.ceil(state.sqft / 55));
-    const dehuCount = Math.max(1, Math.ceil(state.sqft / 450));
-    const ahamTargetPints = Math.round((state.sqft * 0.2) + (state.evapClass * 15));
-
-    priceOutput.textContent = `$${minPrice.toLocaleString()} – $${maxPrice.toLocaleString()}`;
-    timelineOutput.textContent = `${days} to ${days + 1} Days`;
-    ahamOutput.textContent = `${ahamTargetPints} PPD`;
-    dehuOutput.textContent = `${dehuCount} Unit${dehuCount > 1 ? 's' : ''}`;
-    airMoverOutput.textContent = `${airMoversCount} Units`;
-
-    let catName = state.category === 1 ? 'Category 1 (Clean Water)' : state.category === 2 ? 'Category 2 (Greywater)' : 'Category 3 (Blackwater / Biohazard)';
-    protocolOutput.innerHTML = `<strong>IICRC S500 Standard Protocol:</strong> Deploy ${dehuCount} commercial LGR dehumidifier (${ahamTargetPints} AHAM pints/day capacity) and ${airMoversCount} high-velocity air movers across affected perimeter. Target dry standard estimated in ${days} to ${days + 1} days. Direct insurance billing available.`;
-  }
-
-  sqftSlider.addEventListener('input', (e) => {
-    state.sqft = parseInt(e.target.value, 10);
-    updateCalculator();
-  });
-
-  catButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      catButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      state.category = parseInt(btn.getAttribute('data-cat'), 10);
-      updateCalculator();
-    });
-  });
-
-  classButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      classButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      state.evapClass = parseInt(btn.getAttribute('data-class'), 10);
-      updateCalculator();
-    });
-  });
-
-  perilButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      perilButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      state.peril = btn.getAttribute('data-peril');
-      updateCalculator();
-    });
-  });
-
-  if (citySelect) {
-    citySelect.addEventListener('change', () => {
-      updateCalculator();
+    pop.querySelector('.btn-call').addEventListener('click', function () {
+      if (window.gtag) window.gtag('event', 'call_click', { page_path: location.pathname });
     });
   }
 
-  updateCalculator();
-}
-
-/* ==========================================================================
-   3. BEFORE / AFTER COMPARISON SLIDER DRAGGING ENGINE
-   ========================================================================== */
-function initBeforeAfterSlider() {
-  const container = document.getElementById('beforeAfterBox');
-  const beforeLayer = document.getElementById('beforeLayer');
-  const handle = document.getElementById('sliderHandle');
-  const beforeImg = beforeLayer ? beforeLayer.querySelector('img') : null;
-
-  if (!container || !beforeLayer || !handle) return;
-
-  let isDragging = false;
-
-  function updateSliderPosition(clientX) {
-    const rect = container.getBoundingClientRect();
-    let x = clientX - rect.left;
-    x = Math.max(0, Math.min(x, rect.width));
-    const percentage = (x / rect.width) * 100;
-
-    beforeLayer.style.width = `${percentage}%`;
-    handle.style.left = `${percentage}%`;
-
-    if (beforeImg) {
-      beforeImg.style.width = `${rect.width}px`;
-    }
-  }
-
-  handle.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    e.preventDefault();
-  });
-
-  window.addEventListener('mouseup', () => { isDragging = false; });
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    updateSliderPosition(e.clientX);
-  });
-
-  handle.addEventListener('touchstart', (e) => { isDragging = true; });
-  window.addEventListener('touchend', () => { isDragging = false; });
-  window.addEventListener('touchmove', (e) => {
-    if (!isDragging || !e.touches[0]) return;
-    updateSliderPosition(e.touches[0].clientX);
-  });
-
-  const rect = container.getBoundingClientRect();
-  if (beforeImg) beforeImg.style.width = `${rect.width}px`;
-}
-
-/* ==========================================================================
-   4. FLORIDA COVERAGE DIRECTORY & REGION FINDER
-   ========================================================================== */
-const floridaRegionData = {
-  south: [
-    { name: 'Miami', county: 'Miami-Dade' },
-    { name: 'Fort Lauderdale', county: 'Broward' },
-    { name: 'West Palm Beach', county: 'Palm Beach' },
-    { name: 'Boca Raton', county: 'Palm Beach' },
-    { name: 'Hollywood', county: 'Broward' },
-    { name: 'Coral Gables', county: 'Miami-Dade' }
-  ],
-  central: [
-    { name: 'Orlando', county: 'Orange' },
-    { name: 'Kissimmee', county: 'Osceola' },
-    { name: 'Sanford', county: 'Seminole' },
-    { name: 'Winter Park', county: 'Orange' }
-  ],
-  tampa: [
-    { name: 'Tampa', county: 'Hillsborough' },
-    { name: 'St. Petersburg', county: 'Pinellas' },
-    { name: 'Clearwater', county: 'Pinellas' },
-    { name: 'Sarasota', county: 'Sarasota' }
-  ],
-  swcoast: [
-    { name: 'Naples', county: 'Collier' },
-    { name: 'Fort Myers', county: 'Lee' },
-    { name: 'Cape Coral', county: 'Lee' }
-  ],
-  north: [
-    { name: 'Jacksonville', county: 'Duval' },
-    { name: 'Tallahassee', county: 'Leon' },
-    { name: 'Gainesville', county: 'Alachua' },
-    { name: 'Pensacola', county: 'Escambia' }
-  ]
-};
-
-function initCoverageFinder() {
-  const tabs = document.querySelectorAll('[data-region]');
-  const citiesGrid = document.getElementById('citiesGrid');
-  const searchInput = document.getElementById('citySearchInput');
-
-  if (!citiesGrid) return;
-
-  let activeRegion = 'south';
-
-  function renderCities(filterQuery = '') {
-    citiesGrid.innerHTML = '';
-    let citiesToRender = [];
-    if (filterQuery.trim()) {
-      Object.values(floridaRegionData).forEach(list => {
-        list.forEach(c => {
-          if (c.name.toLowerCase().includes(filterQuery.toLowerCase()) || 
-              c.county.toLowerCase().includes(filterQuery.toLowerCase())) {
-            citiesToRender.push(c);
-          }
-        });
-      });
-    } else {
-      citiesToRender = floridaRegionData[activeRegion] || [];
-    }
-
-    if (citiesToRender.length === 0) {
-      citiesGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 2rem;">No matching Florida cities found. We cover all 67 FL counties 24/7! Call (800) 948-4321 for immediate dispatch.</div>`;
+  document.addEventListener('click', function (e) {
+    if (!pop || e.defaultPrevented || e.button !== 0) return;
+    var t = e.target;
+    if (t.closest('.pop')) return;
+    if (Date.now() - closedAt < 400) return;
+    var tel = t.closest('a[href^="tel:"], [data-call]');
+    if (tel) { e.preventDefault(); openPop(null); return; }
+    if (t.closest(MENUS) || t.closest(CONTROLS)) return;
+    if (e.ctrlKey || e.metaKey || e.shiftKey) return;           // let new-tab clicks through
+    var sel = window.getSelection && String(window.getSelection());
+    if (sel && sel.length > 2) return;                          // user is selecting text
+    var link = t.closest('a[href]');
+    if (link) {
+      var href = link.getAttribute('href');
+      if (href.charAt(0) === '#' || link.target === '_blank' || href.indexOf('mailto:') === 0) return;
+      e.preventDefault();
+      openPop(link);
       return;
     }
-
-    citiesToRender.forEach(city => {
-      const pill = document.createElement('div');
-      pill.className = 'city-pill';
-      pill.innerHTML = `
-        <span>${city.name}, FL</span>
-        <span class="city-county">${city.county} Co.</span>
-      `;
-      citiesGrid.appendChild(pill);
-    });
-  }
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeRegion = tab.getAttribute('data-region');
-      if (searchInput) searchInput.value = '';
-      renderCities();
-    });
+    openPop(null);
   });
 
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      renderCities(e.target.value);
-    });
-  }
-
-  renderCities();
-}
-
-/* ==========================================================================
-   5. FAQ ACCORDION
-   ========================================================================== */
-function initFaqAccordion() {
-  const items = document.querySelectorAll('.faq-item');
-  items.forEach(item => {
-    const questionBtn = item.querySelector('.faq-question');
-    if (!questionBtn) return;
-    questionBtn.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
-      items.forEach(i => i.classList.remove('active'));
-      if (!isActive) item.classList.add('active');
-    });
-  });
-}
-
-/* ==========================================================================
-   6. EMERGENCY DISPATCH MODAL & TOAST NOTIFICATION
-   ========================================================================== */
-function initModalAndToast() {
-  const modal = document.getElementById('dispatchModal');
-  const openBtns = document.querySelectorAll('[data-open-modal]');
-  const closeBtn = document.getElementById('modalCloseBtn');
-  const dispatchForm = document.getElementById('dispatchForm');
-  const toast = document.getElementById('toastNotification');
-  const toastText = document.getElementById('toastText');
-
-  if (!modal) return;
-
-  function openModal() {
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal() {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  openBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      // Only open phone call modal everywhere as requested
-      const phoneModal = document.getElementById('phoneCallModal');
-      const modalPhoneDisplay = document.getElementById('phoneModalDisplay');
-      const modalDirectCallLink = document.getElementById('phoneModalDirectCall');
-      if (phoneModal) {
-          if (modalPhoneDisplay) modalPhoneDisplay.textContent = '(800) 948-4321';
-          if (modalDirectCallLink) modalDirectCallLink.href = 'tel:18009484321';
-          phoneModal.classList.add('open');
-          document.body.style.overflow = 'hidden';
-      }
-    });
+  /* ---------- Before / after slider ---------- */
+  document.querySelectorAll('.ba').forEach(function (fig) {
+    var r = fig.querySelector('input[type=range]');
+    if (!r) return;
+    var set = function () { fig.style.setProperty('--pos', r.value + '%'); };
+    r.addEventListener('input', set); set();
   });
 
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  if (dispatchForm) {
-    dispatchForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const city = document.getElementById('modalCityInput')?.value || 'your Florida property';
-      closeModal();
-      showToast(`🚨 Dispatch Confirmed! Emergency response vehicle routed to ${city}. Arrival in ~35 mins.`);
-      dispatchForm.reset();
+  /* ---------- Cost & drying calculator ---------- */
+  var f = document.getElementById('calcForm');
+  if (f) {
+    // Rough planning ranges in USD per square foot. Edit to match local pricing.
+    var CAT = { 1: [3, 5.5], 2: [4, 7], 3: [7, 13] };
+    var CLS = { 1: 0.85, 2: 1, 3: 1.2, 4: 1.4 };
+    var DAYS = { 1: [2, 3], 2: [3, 4], 3: [3, 5], 4: [5, 14] };
+    var ADD = { standing: [0.5, 1], anti: [0.25, 0.5], floodcut: [2, 4], flooring: [3, 6] };
+    var MIN = [600, 1400];
+    var area = f.querySelector('#area'), areaN = f.querySelector('#areaN');
+    var money = function (n) { return '$' + (Math.round(n / 50) * 50).toLocaleString('en-US'); };
+    var val = function (name) { var c = f.querySelector('input[name=' + name + ']:checked'); return c ? c.value : '1'; };
+    var calc = function () {
+      var a = Math.max(0, Math.min(10000, parseFloat(areaN.value) || 0));
+      var cat = val('cat'), cls = val('cls');
+      var lo = a * CAT[cat][0] * CLS[cls], hi = a * CAT[cat][1] * CLS[cls];
+      Object.keys(ADD).forEach(function (k) { var c = f.querySelector('[name=' + k + ']'); if (c && c.checked) { lo += a * ADD[k][0]; hi += a * ADD[k][1]; } });
+      if (a > 0) { lo = Math.max(lo, MIN[0]); hi = Math.max(hi, MIN[1]); }
+      var city = f.querySelector('#city');
+      var where = city && city.value ? ' in ' + city.value : '';
+      document.getElementById('est').textContent = a > 0 ? money(lo) + ' – ' + money(hi) : 'Enter an area';
+      document.getElementById('estWhere').textContent = a > 0 ? 'Rough range for ' + a.toLocaleString('en-US') + ' sq ft' + where : '';
+      document.getElementById('estDays').textContent = DAYS[cls][0] + '–' + DAYS[cls][1] + ' days';
+      document.getElementById('estAir').textContent = a > 0 ? Math.max(1, Math.ceil(a / 60)) : '–';
+      document.getElementById('estDehu').textContent = a > 0 ? Math.max(1, Math.ceil(a / 600)) : '–';
+    };
+    area.addEventListener('input', function () { areaN.value = area.value; calc(); });
+    areaN.addEventListener('input', function () { area.value = Math.min(3000, areaN.value || 0); calc(); });
+    f.querySelectorAll('[data-preset]').forEach(function (b) {
+      b.addEventListener('click', function () { areaN.value = b.getAttribute('data-preset'); area.value = Math.min(3000, areaN.value); calc(); });
     });
+    f.addEventListener('change', calc);
+    f.addEventListener('submit', function (e) { e.preventDefault(); });
+    calc();
   }
-
-  function showToast(message) {
-    if (!toast || !toastText) return;
-    toastText.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => { toast.classList.remove('show'); }, 5000);
-  }
-}
-
-/* ==========================================================================
-   7. MOBILE NAVIGATION DRAWER
-   ========================================================================== */
-function initMobileNav() {
-  const toggleBtn = document.getElementById('mobileNavToggle');
-  const navLinks = document.querySelector('.nav-links');
-
-  if (!toggleBtn || !navLinks) return;
-
-  toggleBtn.addEventListener('click', () => {
-    const isVisible = navLinks.style.display === 'flex';
-    navLinks.style.display = isVisible ? 'none' : 'flex';
-    if (!isVisible) {
-      navLinks.style.flexDirection = 'column';
-      navLinks.style.position = 'absolute';
-      navLinks.style.top = '80px';
-      navLinks.style.left = '0';
-      navLinks.style.right = '0';
-      navLinks.style.background = 'white';
-      navLinks.style.padding = '1.5rem';
-      navLinks.style.borderBottom = '1px solid #e2e8f0';
-      navLinks.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
-    }
-  });
-}
+})();

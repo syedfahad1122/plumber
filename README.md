@@ -1,57 +1,29 @@
-# plumber - Florida Water Damage & Emergency Plumbing Restoration
+# Florida Water Damage — referral website
 
-A state-of-the-art, ultra-modern emergency restoration and plumbing web application tailored for Florida homeowners and commercial properties, built using **Pure HTML5, Vanilla CSS3, and Vanilla JavaScript**.
+88 SEO pages in plain HTML/CSS/JS. Deploy as-is to Cloudflare Pages (or any static host).
 
-## 🚀 Key Features
+## Pages
+- Home (`index.html`) with before/after slider, cost calculator, services, regions, FAQ
+- 16 service pages (e.g. `burst-pipe-repair.html`, `ac-drain-overflow.html`, `slab-leak-detection.html`)
+- 8 region pages (`water-damage-south-florida.html` …) and 53 city pages (`water-damage-miami-fl.html` …)
+- Calculator, insurance claim guide, hurricane guide, FAQ, how it works, contact, privacy, terms, 404
+- `sitemap.xml`, `robots.txt`, `_headers`, `favicon.svg`, WebP images
 
-1. **Pure HTML5 & Vanilla CSS3 Architecture**: No framework build steps required; zero dependencies, lightning fast load time, fully responsive.
-2. **Emergency Header & Live Dispatch Bar**: Dynamic live status ticker ("Crews Active Across All 67 Florida Counties"), 24/7 hotline CTA, mobile navigation drawer.
-3. **Multi-Level Desktop & Mobile Dropdown Submenus**: Services mega-menu, Service Areas directory, Resources, and Company pages.
-4. **Click-to-Call Emergency Popup Modal**: Global interception of all phone links to trigger a high-converting confirmation modal with direct 1-click dialing.
-5. **Interactive IICRC S500 + Plumbing Sizing & Cost Calculator**:
-   - Sq ft slider with live numerical display & range bounds
-   - Contamination Category cards (Cat 1 Clean, Cat 2 Grey, Cat 3 Biohazard)
-   - Evaporation Class selector (Class 1 - 4)
-   - Peril/Plumbing Type selector (Burst Pipe, Slab Leak, Hurricane/Storm Flood, AC Drain Overflow)
-   - Florida City dropdown (Miami, Tampa, Orlando, Jacksonville, Fort Lauderdale, Naples, Sarasota, etc.)
-   - Instant calculation: Estimated Xactimate cost range, drying timeline, commercial LGR dehumidifiers count, air movers count, AHAM target.
-6. **Interactive Before/After Restoration Visual Comparison Slider**: Smooth mouse/touch drag slider comparing flooded damage vs restored property.
-7. **Dedicated Subpages & SEO Microdata**:
-   - `index.html`: Main home page.
-   - `burst-pipe-repair.html`: Burst & Leaking Pipe Repair subpage with Xactimate pricing schedule & emergency checklist.
-   - `services.html`: Services directory.
-   - `water-damage-restoration.html`: 24/7 Water Extraction subpage.
-   - `service-areas.html`: Florida 67 Counties directory.
-   - `calculator.html`: Dedicated calculator page.
-8. **Cloudflare Deployment Package**: Includes production-ready `worker.js` and `CLOUDFLARE_GUIDE.md` for 1-click deployment on Cloudflare Pages and Cloudflare Workers.
+## Call popup
+Any click on the page opens the call popup, except clicks on menus (header, mobile menu, footer,
+breadcrumbs) and controls (calculator, FAQ toggles, slider). Content links show a "Continue to…" option.
+Logic is in `script.js` (search for "Call popup").
 
----
+## Before going live
+1. Replace the phone number everywhere: find `(800) 948-4321` and `+18009484321` across all files.
+2. Set your real domain: find `https://floridawaterdamage.com` across all files.
+3. Have `privacy.html` and `terms.html` reviewed.
+4. Submit `https://YOURDOMAIN/sitemap.xml` in Google Search Console.
 
-## ⚡ Cloudflare Deployment Quick Start
+## SEO included
+Unique titles/descriptions, canonical URLs (Cloudflare Pages style, no .html), Open Graph, JSON-LD
+(Organization, WebSite, Service, BreadcrumbList, FAQPage, Article, WebApplication), breadcrumbs,
+internal links between services, regions and cities, fast WebP images, mobile-first layout.
 
-### Cloudflare Pages (Easiest)
-1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/) -> **Workers & Pages** -> **Create Application** -> **Pages**.
-2. Select **Upload Assets** (Direct Upload).
-3. Drag & drop the project folder or select `index.html`, `styles.css`, `script.js`, and `images/`.
-4. Click **Deploy Site**!
-
-### Cloudflare Workers (`worker.js`)
-1. Create a Worker in Cloudflare Dashboard.
-2. Replace code in editor with [`worker.js`](worker.js).
-3. Bind your static assets folder under **Settings -> Variables & Assets**.
-4. Deploy!
-
----
-
-## 📁 Repository Structure
-- `index.html` - Home page
-- `burst-pipe-repair.html` - Burst Pipe & Emergency Plumbing subpage
-- `services.html` - Services hub page
-- `water-damage-restoration.html` - Water extraction subpage
-- `service-areas.html` - Service areas page
-- `calculator.html` - Calculator page
-- `styles.css` - Design system stylesheet
-- `script.js` - Interactive JavaScript engine
-- `worker.js` - Cloudflare Workers deployment script
-- `CLOUDFLARE_GUIDE.md` - Deployment instructions
-- `images/` - Photorealistic site assets
+The site states clearly that it's a referral service. Keep it that way: no fake reviews, ratings,
+arrival-time promises or "our crews" claims.
