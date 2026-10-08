@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Florida Water Damage Sizing &amp; Cost Calculator | IICRC S500</title>
+  <meta name="description" content="Calculate instant equipment requirements, drying timeline, and standardized Xactimate pricing for water damage restoration across Florida.">
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="/index.html" class="brand-logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">FLORIDA <span>WATER DAMAGE</span></span>
+          <span class="brand-subtitle">&amp; EMERGENCY PLUMBING FLEET</span>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="/services.html" class="nav-link">Services</a></li>
+          <li class="nav-item"><a href="/service-areas.html" class="nav-link">Service Areas</a></li>
+          <li class="nav-item"><a href="/calculator.html" class="nav-link" style="color: var(--primary);">Calculator</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="btn-dispatch" data-open-modal>DISPATCH CREW NOW</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container subpage-container">
+    <nav class="breadcrumbs-bar">
+      <ul class="breadcrumb-list">
+        <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+        <li class="breadcrumb-separator">/</li>
+        <li class="breadcrumb-item active">Sizing &amp; Cost Calculator</li>
+      </ul>
+    </nav>
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="calculator-section" style="border: none; padding: 0;">
+      <div class="calculator-wrapper">
+        <div class="calculator-header-bar">
+          <div class="calculator-title-group">
+            <div class="section-tag">IICRC S500 + Plumbing Sizing Engine</div>
+            <h1 style="font-size: 2.5rem; color: #0f172a;">Florida Water Damage Cost &amp; Sizing Calculator</h1>
+            <p>Select your property parameters to get instant equipment requirements, drying timeline, and standardized Xactimate insurance estimates.</p>
+          </div>
+        </div>
+
+        <div class="calculator-grid">
+          <!-- Controls Column -->
+          <div class="calc-controls-col">
+            <div class="calc-control-group">
+              <label for="sqftRange">
+                <span>1. Affected Floor Area (Sq Ft)</span>
+                <span class="range-value-display"><span id="sqftDisplay">450</span> sq ft</span>
+              </label>
+              <div class="range-input-wrapper">
+                <input type="range" id="sqftRange" min="50" max="3500" step="25" value="450" class="custom-range-slider">
+              </div>
+            </div>
+
+            <div class="calc-control-group">
+              <label>2. Water Contamination Category (IICRC S500)</label>
+              <div class="option-cards-grid">
+                <button type="button" class="option-card-btn active" data-cat="1">
+                  <div class="card-option-header">
+                    <span class="card-option-title">Cat 1</span>
+                    <span class="card-badge green">Clean</span>
+                  </div>
+                  <span class="card-option-desc">Supply pipe line break, clean tap water.</span>
+                </button>
+                <button type="button" class="option-card-btn" data-cat="2">
+                  <div class="card-option-header">
+                    <span class="card-option-title">Cat 2</span>
+                    <span class="card-badge amber">Greywater</span>
+                  </div>
+                  <span class="card-option-desc">Washing machine overflow, dishwasher.</span>
+                </button>
+                <button type="button" class="option-card-btn" data-cat="3">
+                  <div class="card-option-header">
+                    <span class="card-option-title">Cat 3</span>
+                    <span class="card-badge red">Biohazard</span>
+                  </div>
+                  <span class="card-option-desc">Sewage back-up, hurricane storm surge.</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="calc-control-group">
+              <label>3. Evaporation Sizing Class (Class 1 – 4)</label>
+              <div class="option-cards-grid four-cols">
+                <button type="button" class="option-card-btn" data-class="1">
+                  <span class="card-option-title">Class 1</span>
+                  <span class="card-option-desc">Slow / Part room</span>
+                </button>
+                <button type="button" class="option-card-btn active" data-class="2">
+                  <span class="card-option-title">Class 2</span>
+                  <span class="card-option-desc">Entire room</span>
+                </button>
+                <button type="button" class="option-card-btn" data-class="3">
+                  <span class="card-option-title">Class 3</span>
+                  <span class="card-option-desc">Overhead walls</span>
+                </button>
+                <button type="button" class="option-card-btn" data-class="4">
+                  <span class="card-option-title">Class 4</span>
+                  <span class="card-option-desc">Hardwood</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="calc-control-group">
+              <label>4. Primary Peril &amp; Plumbing Issue Type</label>
+              <div class="option-cards-grid">
+                <button type="button" class="option-card-btn active" data-peril="burst">
+                  <span class="card-option-title">Burst Pipe / Leak</span>
+                  <span class="card-option-desc">Copper/PEX break</span>
+                </button>
+                <button type="button" class="option-card-btn" data-peril="slab">
+                  <span class="card-option-title">Slab Leak</span>
+                  <span class="card-option-desc">Underground foundation leak</span>
+                </button>
+                <button type="button" class="option-card-btn" data-peril="hurricane">
+                  <span class="card-option-title">Hurricane Flood</span>
+                  <span class="card-option-desc">Tropical storm intrusion</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="calc-control-group">
+              <label for="calcCitySelect">5. Localize to Your Florida City</label>
+              <select id="calcCitySelect" class="city-select-box">
+                <option value="miami" selected>Miami, FL (Miami-Dade County)</option>
+                <option value="orlando">Orlando, FL (Orange County)</option>
+                <option value="tampa">Tampa, FL (Hillsborough County)</option>
+                <option value="fort-lauderdale">Fort Lauderdale, FL (Broward County)</option>
+                <option value="jacksonville">Jacksonville, FL (Duval County)</option>
+                <option value="naples">Naples, FL (Collier County)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Output Panel -->
+          <div class="calc-output-card">
+            <div>
+              <div class="output-header">
+                <div>
+                  <span class="output-badge">INSTANT CALCULATION</span>
+                  <h4 style="font-size: 1.25rem; color: #0f172a;">Estimated Restoration Scope</h4>
+                </div>
+              </div>
+
+              <div class="price-estimate-box">
+                <div class="price-label">
+                  <span>ESTIMATED RESTORATION COST</span>
+                  <span style="color: #facc15; font-weight: 800;">XACTIMATE RATES</span>
+                </div>
+                <div class="price-val" id="calcPriceOutput">$1,350 – $1,800</div>
+                <p class="price-note">
+                  Direct carrier billing available. Most insurance policies cover sudden water leaks. Out-of-pocket is typically just your policy deductible.
+                </p>
+              </div>
+
+              <div class="metrics-row">
+                <div class="metric-mini-card">
+                  <div class="metric-title">Drying Timeline</div>
+                  <div class="metric-value" id="calcTimelineOutput">2 to 3 Days</div>
+                </div>
+                <div class="metric-mini-card">
+                  <div class="metric-title">AHAM Target PPD</div>
+                  <div class="metric-value" id="calcAhamOutput">105 PPD</div>
+                </div>
+              </div>
+
+              <div class="equipment-specs-box">
+                <div class="equip-title">Required Equipment Deployment</div>
+                <div class="equip-item-row">
+                  <span>Commercial LGR Dehumidifiers:</span>
+                  <span class="equip-qty" id="calcDehuOutput">1 Unit</span>
+                </div>
+                <div class="equip-item-row">
+                  <span>High-Velocity Air Movers:</span>
+                  <span class="equip-qty" id="calcAirMoverOutput">9 Units</span>
+                </div>
+              </div>
+
+              <div id="calcProtocolText" style="font-size: 0.825rem; color: #334155; background: #e0f2fe; padding: 0.85rem; border-radius: 8px; border: 1px solid #bae6fd;">
+                <strong>IICRC S500 Protocol:</strong> Deploy 1 commercial LGR dehumidifier and 9 high-velocity air movers.
+              </div>
+            </div>
+
+            <div style="margin-top: 1.75rem;">
+              <button class="btn-primary-hero" style="width: 100%;" data-open-modal>
+                DISPATCH CREW WITH ESTIMATE
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 Florida Water Damage &amp; Emergency Plumbing Network. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>
