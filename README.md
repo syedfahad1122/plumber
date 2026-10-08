@@ -16,7 +16,7 @@ Logic is in `script.js` (search for "Call popup").
 
 ## Before going live
 1. Replace the phone number everywhere: find `(800) 948-4321` and `+18009484321` across all files.
-2. Set your real domain: find `https://floridawaterdamage.com` across all files.
+2. Set your real domain: find `https://floridawaterdamage.us` across all files.
 3. Have `privacy.html` and `terms.html` reviewed.
 4. Submit `https://YOURDOMAIN/sitemap.xml` in Google Search Console.
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://floridawaterdamage.com/sitemap.xml
+Sitemap: https://floridawaterdamage.us/sitemap.xml
