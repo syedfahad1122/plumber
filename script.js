@@ -364,7 +364,16 @@ function initModalAndToast() {
   openBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      openModal();
+      // Only open phone call modal everywhere as requested
+      const phoneModal = document.getElementById('phoneCallModal');
+      const modalPhoneDisplay = document.getElementById('phoneModalDisplay');
+      const modalDirectCallLink = document.getElementById('phoneModalDirectCall');
+      if (phoneModal) {
+          if (modalPhoneDisplay) modalPhoneDisplay.textContent = '(800) 948-4321';
+          if (modalDirectCallLink) modalDirectCallLink.href = 'tel:18009484321';
+          phoneModal.classList.add('open');
+          document.body.style.overflow = 'hidden';
+      }
     });
   });
 
