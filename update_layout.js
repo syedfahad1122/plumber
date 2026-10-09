@@ -22,9 +22,9 @@ const topbarAndHeader = `  <!-- Top Emergency Ticker Bar -->
         </span>
       </div>
       <div class="hidden sm:flex items-center gap-3 shrink-0" style="display: flex; align-items: center;">
-        <a href="tel:18009484321" class="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1.5 transition-colors" style="color: #fbbf24; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.375rem;">
+        <a href="tel:18442137464" class="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1.5 transition-colors" style="color: #fbbf24; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.375rem;">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-500" style="color: #ef4444;"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-          <span>(800) 948-4321</span>
+          <span>(844) 213-7464</span>
         </a>
       </div>
     </div>
@@ -68,7 +68,7 @@ const topbarAndHeader = `  <!-- Top Emergency Ticker Bar -->
         <div class="hidden lg:flex items-center gap-4 header-actions" style="display: flex; align-items: center;">
           <button data-open-modal class="btn-dispatch inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm text-white bg-red-700 hover:bg-red-800 transition-colors shadow-sm cursor-pointer border-none" style="background-color: #b91c1c; color: white; font-weight: 700; border-radius: 0.5rem; padding: 0.625rem 1.25rem; display: flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="fill: transparent;"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-            <span>DISPATCH: (800) 948-4321</span>
+            <span>DISPATCH: (844) 213-7464</span>
           </button>
         </div>
 
@@ -95,7 +95,7 @@ const footer = `  <!-- Main Footer -->
         </div>
         <button data-open-modal class="btn-dispatch px-8 py-4 rounded-lg bg-red-700 hover:bg-red-800 text-white font-bold text-base shadow-sm text-center flex items-center gap-3 shrink-0 transition-colors border-none cursor-pointer" style="background:#b91c1c; color:white; padding:1.25rem 2.5rem; border-radius:0.5rem; font-weight:700; font-size: 1.125rem; display: flex; align-items: center; gap: 0.75rem; border: none; cursor: pointer; white-space: nowrap;">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fill-white" style="fill: transparent;"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
-          <span>CALL (800) 948-4321</span>
+          <span>CALL (844) 213-7464</span>
         </button>
       </div>
 
