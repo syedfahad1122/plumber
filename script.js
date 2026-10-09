@@ -27,14 +27,13 @@
   document.querySelectorAll('[data-drawer-close]').forEach(function (b) { b.addEventListener('click', function () { setDrawer(false); }); });
 
   /* ---------- Call popup ----------
-     Any click on the page opens the call popup, EXCEPT clicks on menus
-     (header, mobile menu, footer links, breadcrumbs) and on controls
-     (calculator, FAQ toggles, slider). Phone links always open it. */
+     Opens only when a visitor asks to call: on phones, tel: links dial
+     directly; on desktop (which can't dial) a tel: link or [data-call]
+     element opens the popup showing the number. Ordinary clicks and
+     links behave normally. */
   var pop = document.getElementById('callPop');
   var lastFocus = null, closedAt = 0;
-  var MENUS = '.hdr, .drawer, .ftr, .crumbs, .ticker';
-  var CONTROLS = 'form, input, select, textarea, label, summary, button, .ba, .presets, .no-pop';
-
+  
   function openPop(link) {
     if (!pop || pop.classList.contains('open')) return;
     var cont = pop.querySelector('[data-continue]');
@@ -80,27 +79,31 @@
     });
   }
 
+  var canDial = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
   document.addEventListener('click', function (e) {
-    if (!pop || e.defaultPrevented || e.button !== 0) return;
-    var t = e.target;
-    if (t.closest('.pop')) return;
-    if (Date.now() - closedAt < 400) return;
-    var tel = t.closest('a[href^="tel:"], [data-call]');
-    if (tel) { e.preventDefault(); openPop(null); return; }
-    if (t.closest(MENUS) || t.closest(CONTROLS)) return;
-    if (e.ctrlKey || e.metaKey || e.shiftKey) return;           // let new-tab clicks through
-    var sel = window.getSelection && String(window.getSelection());
-    if (sel && sel.length > 2) return;                          // user is selecting text
-    var link = t.closest('a[href]');
-    if (link) {
-      var href = link.getAttribute('href');
-      if (href.charAt(0) === '#' || link.target === '_blank' || href.indexOf('mailto:') === 0) return;
-      e.preventDefault();
-      openPop(link);
-      return;
-    }
+    if (e.defaultPrevented || e.button !== 0) return;
+    var tel = e.target.closest('a[href^="tel:"], [data-call]');
+    if (!tel || e.target.closest('.pop')) return;
+    if (window.gtag) window.gtag('event', 'call_click', { page_path: location.pathname });
+    if (canDial && tel.matches('a[href^="tel:"]')) return;      // phones: dial straight away
+    if (!pop) return;
+    e.preventDefault();
     openPop(null);
   });
+
+  /* ---------- Emergency picker (progressive: all steps show without JS) ---------- */
+  var picks = document.querySelectorAll('[data-pick]');
+  if (picks.length) {
+    var srcs = document.querySelectorAll('[data-src]');
+    var show = function (key, scroll) {
+      picks.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-pick') === key)); });
+      srcs.forEach(function (s) { s.hidden = key !== 'all' && s.getAttribute('data-src') !== key; });
+      if (scroll && key !== 'all') { var t = document.getElementById(key); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    };
+    picks.forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-pick'), true); }); });
+    var h = location.hash.slice(1);
+    if (h && document.querySelector('[data-src="' + h + '"]')) show(h, false);
+  }
 
   /* ---------- Before / after slider ---------- */
   document.querySelectorAll('.ba').forEach(function (fig) {

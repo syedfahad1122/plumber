@@ -299,3 +299,15 @@ section{padding:5rem 0}
   .calc form{padding:1.2rem}
 }
 .hdr .btn-call{padding:.72rem 1rem;font-size:.95rem}.hdr .nav{margin-right:.2rem}
+
+/* ---------- Emergency steps page ---------- */
+.prose .box.safety{background:#FFF7E6;border:1px solid #F2C46D;border-radius:var(--r);padding:1.2rem 1.4rem;margin:0 0 1.6rem;max-width:var(--measure)}
+.prose .box.safety h2{margin-top:0;font-size:1.25rem}
+.picker{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0 1.4rem}
+.pick{font:inherit;font-weight:700;font-size:.95rem;padding:.65rem 1rem;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--navy);cursor:pointer;min-height:44px}
+.pick:hover{border-color:var(--ocean)}
+.pick[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pick:focus-visible{outline:3px solid var(--ocean);outline-offset:2px}
+.src{border-top:1px solid var(--line);padding-top:.4rem;margin-top:1rem}
+.src[hidden]{display:none}
+.src .warn{background:#FDECEC;border-left:4px solid #C0392B;padding:.7rem 1rem;border-radius:0 var(--r-s) var(--r-s) 0;max-width:var(--measure)}

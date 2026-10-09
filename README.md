@@ -10,9 +10,8 @@
 - `sitemap.xml`, `robots.txt`, `_headers`, `favicon.svg`, WebP images
 
 ## Call popup
-Any click on the page opens the call popup, except clicks on menus (header, mobile menu, footer,
-breadcrumbs) and controls (calculator, FAQ toggles, slider). Content links show a "Continue to…" option.
-Logic is in `script.js` (search for "Call popup").
+Phone links dial directly on phones. On desktop, phone links open a popup showing the number.
+Ordinary clicks and links behave normally. Logic is in `script.js` (search for "Call popup").
 
 ## Before going live
 1. Replace the phone number everywhere: find `(800) 948-4321` and `+18009484321` across all files.
