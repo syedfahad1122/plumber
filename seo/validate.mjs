@@ -64,7 +64,7 @@ for (const f of files) {
     try { JSON.parse(m[1]); } catch (e) { err(f, `invalid JSON-LD: ${e.message}`); }
   }
   // Referral disclosure + phone
-  if (!/referral service/i.test(html)) err(f, 'referral-service disclosure missing');
+  if (!/referral service|servicio de referidos/i.test(html)) err(f, 'referral-service disclosure missing');
   if (!html.includes(PHONE_TEL)) err(f, `tel:${PHONE_TEL} link missing`);
   const phones = html.replace(/<span class="official-tel">[^<]*<\/span>/g, '').replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, '').match(/\(\d{3}\)\s?\d{3}-\d{4}/g) || [];
   for (const p of new Set(phones)) if (p !== PHONE_TEXT) err(f, `unexpected phone number ${p}`);

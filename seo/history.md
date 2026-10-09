@@ -2,6 +2,12 @@
 
 Newest first. Check this file before choosing a task so nothing is repeated.
 
+## 2026-10-10 (3): Spanish pages + Google Analytics
+- Added Google Analytics (G-BY1B0T5HX1) to every page. script.js already sends `call_click` events. Privacy policy updated.
+- New Spanish pages: `/es` (homepage) and `/es-emergencia-danos-por-agua` (emergency guide). Both have hreflang pairs with `/` and `/water-damage-emergency-steps` and translated menus, footer and popup. Links to pages that only exist in English are marked "(en inglés)". Both pages say honestly that not every provider speaks Spanish.
+- Top bar on every page has an Español / English switch.
+- Next language candidates for Florida: Haitian Creole, Portuguese. These need native review before publishing.
+
 ## 2026-10-10 (2): emergency guide + call popup fix
 - New page `/water-damage-emergency-steps`: pick the water source (burst pipe, AC, water heater, appliance, sewage, roof, flood) to get first steps, who to call and what to avoid. Covers safety rules (CDC), the 24-48 hour drying window (EPA) and Florida claim-notice deadlines (s. 627.70132: 1 year for new or reopened claims, 18 months for supplemental). Has Article, FAQPage and BreadcrumbList schema. Every step is visible without JavaScript.
 - Linked from the Resources menu on every page and from the homepage's "What to do right now" box.
