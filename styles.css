@@ -376,3 +376,11 @@ body[data-lp] .nav, body[data-lp] [data-burger], body[data-lp] .ftr .cols{displa
 .clock.js .clock-stages li{opacity:.45}
 .clock.js .clock-stages li.on{opacity:1;border-color:var(--ocean);box-shadow:var(--shadow)}
 .clock-src{font-size:.82rem;color:#5A6B7B}
+
+/* ---------- Homepage call-first additions ---------- */
+.tiles-sec{padding-block:3rem}
+.lp-tiles-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:900px){.lp-tiles-4{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.lp-tiles-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cta-row{display:flex;align-items:center;gap:1rem 1.4rem;flex-wrap:wrap;margin-top:2rem}
+.cta-row p{margin:0;color:#5A6B7B;font-weight:600}

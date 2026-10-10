@@ -2,6 +2,9 @@
 
 Newest first. Check this file before choosing a task so nothing is repeated.
 
+## 2026-10-11 (3): homepage reworked to a call-first layout
+- Same section flow as competitor ad pages, in our own words and design: a shorter hero ("24/7 water damage help anywhere in Florida"), a "Water still coming in?" strip, a 12-tile "What happened? Pick your problem." grid, call buttons after How it works and after the FAQ, and the "5 questions to ask before you hire" list. No ratings, arrival-time or badge claims.
+
 ## 2026-10-11 (2): "First 48 hours" interactive timeline (homepage)
 - New homepage section `#first-48-hours`: drag through four stages (minutes, first day, 24–48 hours, after 48 hours). A room drawing shows water rising, drywall wicking and mold appearing. Each stage says what to do. Based on EPA guidance; claims kept soft ("can"). Every stage's text shows without JavaScript.
 
