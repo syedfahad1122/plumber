@@ -2,6 +2,9 @@
 
 Newest first. Check this file before choosing a task so nothing is repeated.
 
+## 2026-10-11: Google Ads landing page
+- New `/emergency-water-damage-help`: a focused landing page for paid ads, with the same call-first flow as competitor ad pages, kept honest (no ratings, arrival times, badges or insurance-billing claims). Main menus are hidden on this page. It is set to noindex and left out of the sitemap so it doesn't compete with the homepage in search.
+
 ## 2026-10-10 (3): Spanish pages + Google Analytics
 - Added Google Analytics (G-BY1B0T5HX1) to every page. script.js already sends `call_click` events. Privacy policy updated.
 - New Spanish pages: `/es` (homepage) and `/es-emergencia-danos-por-agua` (emergency guide). Both have hreflang pairs with `/` and `/water-damage-emergency-steps` and translated menus, footer and popup. Links to pages that only exist in English are marked "(en inglés)". Both pages say honestly that not every provider speaks Spanish.

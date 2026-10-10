@@ -314,3 +314,35 @@ section{padding:5rem 0}
 .ticker .lang{margin-left:auto;color:#fff;font-weight:600;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.15rem .7rem}
 .ticker .lang:hover{background:rgba(255,255,255,.12)}
 .note-en{color:#5A6B7B;font-size:.85em}
+
+/* ---------- Ad landing page (/emergency-water-damage-help) ---------- */
+body[data-lp] .nav, body[data-lp] [data-burger], body[data-lp] .ftr .cols{display:none}
+.lp-narrow{max-width:760px}
+.lp-hero{background:radial-gradient(900px 420px at 90% -10%,rgba(10,111,176,.6),transparent 60%),var(--navy);color:#fff;padding:3rem 0 2.6rem;text-align:left}
+.lp-hero h1{color:#fff;font-size:clamp(2rem,6vw,3.2rem);line-height:1.05;margin:.4rem 0 .8rem;text-wrap:balance}
+.lp-hero .lede{color:#C7D6E4;font-size:1.15rem;max-width:56ch;margin:0 0 1.4rem}
+.lp-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.9rem;color:#9FE3C4;margin:0}
+.lp-eyebrow .dot{width:9px;height:9px;border-radius:50%;background:#34D399;box-shadow:0 0 0 4px rgba(52,211,153,.2);animation:lpPulse 1.8s ease-in-out infinite}
+@keyframes lpPulse{50%{box-shadow:0 0 0 8px rgba(52,211,153,0)}}
+@media (prefers-reduced-motion:reduce){.lp-eyebrow .dot{animation:none}}
+.lp-benefits{list-style:none;padding:0;margin:1.6rem 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem 1.2rem}
+.lp-benefits li{display:flex;gap:.5rem;align-items:center;color:#E6EEF5;font-weight:600}
+.lp-benefits svg{color:#34D399;flex:none}
+@media (max-width:560px){.lp-benefits{grid-template-columns:1fr}}
+.lp-strip{background:#FFF1E8;border-bottom:1px solid #F5C9AE}
+.lp-strip-in{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding-block:1rem}
+.lp-strip p{margin:0;max-width:52ch}
+.lp-sec{padding:2.6rem 0}
+.lp-alt{background:var(--paper)}
+.lp-sec h2,.lp-final h2{margin-top:0;text-wrap:balance}
+.lp-tiles{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}
+.lp-tiles a{display:flex;align-items:center;gap:.6rem;padding:.9rem 1rem;border:1px solid var(--line);border-radius:var(--r);background:#fff;color:var(--navy);font-weight:700;text-decoration:none;min-height:56px}
+.lp-tiles a:hover{border-color:var(--ocean);box-shadow:var(--shadow)}
+.lp-tiles svg{color:var(--ocean);flex:none}
+@media (max-width:640px){.lp-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lp-sec .btn-call{margin-top:1rem}
+.lp-final{background:var(--navy);color:#fff;padding:2.8rem 0}
+.lp-final h2{color:#fff}
+.lp-final p{color:#C7D6E4}
+.lp-disc{font-size:.85rem;margin-top:1.4rem;opacity:.85}
+.lp-strip,.lp-hero,.lp-sec,.lp-final{padding-inline:0}.lp-strip{padding-block:0}
