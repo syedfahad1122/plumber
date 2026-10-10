@@ -2,6 +2,9 @@
 
 Newest first. Check this file before choosing a task so nothing is repeated.
 
+## 2026-10-11 (2): "First 48 hours" interactive timeline (homepage)
+- New homepage section `#first-48-hours`: drag through four stages (minutes, first day, 24–48 hours, after 48 hours). A room drawing shows water rising, drywall wicking and mold appearing. Each stage says what to do. Based on EPA guidance; claims kept soft ("can"). Every stage's text shows without JavaScript.
+
 ## 2026-10-11: Google Ads landing page
 - New `/emergency-water-damage-help`: a focused landing page for paid ads, with the same call-first flow as competitor ad pages, kept honest (no ratings, arrival times, badges or insurance-billing claims). Main menus are hidden on this page. It is set to noindex and left out of the sitemap so it doesn't compete with the homepage in search.
 

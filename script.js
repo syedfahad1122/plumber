@@ -105,6 +105,25 @@
     if (h && document.querySelector('[data-src="' + h + '"]')) show(h, false);
   }
 
+
+  /* ---------- First 48 hours timeline ---------- */
+  document.querySelectorAll('[data-clock]').forEach(function (c) {
+    var r = c.querySelector('input[type=range]'), room = c.querySelector('.clock-room');
+    var items = c.querySelectorAll('[data-stage]');
+    var L = [['6%', '4%', 0], ['14%', '38%', 0], ['14%', '62%', .25], ['14%', '78%', .9]];
+    c.classList.add('js');
+    var set = function () {
+      var i = +r.value, it = items[i];
+      room.style.setProperty('--lvl', L[i][0]); room.style.setProperty('--wick', L[i][1]); room.style.setProperty('--mold', L[i][2]);
+      items.forEach(function (x, k) { x.classList.toggle('on', k === i); });
+      c.querySelector('[data-clock-hour]').textContent = it.getAttribute('data-hour');
+      c.querySelector('[data-clock-label]').textContent = it.getAttribute('data-label');
+    };
+    r.addEventListener('input', set);
+    items.forEach(function (x, k) { x.addEventListener('click', function () { r.value = k; set(); }); });
+    set();
+  });
+
   /* ---------- Before / after slider ---------- */
   document.querySelectorAll('.ba').forEach(function (fig) {
     var r = fig.querySelector('input[type=range]');
