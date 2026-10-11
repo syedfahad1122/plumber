@@ -2,6 +2,20 @@
 
 Newest first. Check this file before choosing a task so nothing is repeated.
 
+## 2026-10-11 (4): Miami city page deepened (`/water-damage-miami-fl`)
+- Main content grew from about 460 to about 2,100 words, all sourced:
+  - Hurricane Irma surge along Biscayne Bay, Brickell and Coconut Grove (NWS Miami)
+  - June 2024 rain floods in northeast Miami-Dade (Wikipedia, citing NWS/WPC)
+  - King tides: City of Miami guidance + 2026 Oct/Nov windows (WLRN / Florida Storms)
+  - Cast-iron drain lines in pre-1975 homes (Fox 4)
+  - WASD 24-hour emergency line (305) 274-9272 (miamidade.gov)
+  - Florida condo insurance split, s. 718.111(11) (Becker)
+  - City of Miami post-storm permit list and the 50% substantial-damage rule (miami.gov)
+  - Storm surge zones A-E, Know Your Zone, Miami-Dade Alerts; FEMA flood maps (2009 effective + preliminary), Flood Zone Hot Line, CRS 35% discount (miamidade.gov)
+  - Cost factors (no prices) and flood vs. homeowners coverage note
+- 4 new FAQs (WASD, condo, permits, king tide/surge coverage); FAQPage schema updated (8 Q&As).
+- Primary keyword: "water damage restoration Miami" (no volume data; no Search Console access).
+
 ## 2026-10-11 (3): homepage reworked to a call-first layout
 - Same section flow as competitor ad pages, in our own words and design: a shorter hero ("24/7 water damage help anywhere in Florida"), a "Water still coming in?" strip, a 12-tile "What happened? Pick your problem." grid, call buttons after How it works and after the FAQ, and the "5 questions to ask before you hire" list. No ratings, arrival-time or badge claims.
 
